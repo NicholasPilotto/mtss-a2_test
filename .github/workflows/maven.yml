@@ -19,6 +19,6 @@ jobs:
         java-version: '11'
         cache: maven
     - name: Build with Maven
-      run: mvn -B package --file e-shop-manager/pom.xml
+      run: mvn -B jacoco:prepare-agent package --file e-shop-manager/pom.xml
     - name: Coveralls report submission
       run: mvn test --file e-shop-manager/pom.xml jacoco:report coveralls:report
