@@ -21,4 +21,4 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file e-shop-manager/pom.xml jacoco:report
     - name: Coveralls report submission
-      run: mvn coveralls:report
+      run: mvn test jacoco:report coveralls:report
