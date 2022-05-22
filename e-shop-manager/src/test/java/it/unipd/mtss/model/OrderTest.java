@@ -1,10 +1,14 @@
+////////////////////////////////////////////////////////////////////
+// [NICHOLAS] [PILOTTO] [1230237]
+// [GIOVANNI] [GARDIN] [2010003]
+////////////////////////////////////////////////////////////////////
+
 package it.unipd.mtss.model;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
-
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
