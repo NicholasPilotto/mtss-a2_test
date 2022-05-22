@@ -10,14 +10,14 @@ public class User {
 
     public User(String username, String firstname, String lastname) {
 
-        if(username == null) {
-            throw new IllegalArgumentException("Nome utente non valido: è nullo.");
+        if(username == null || username.length() == 0) {
+            throw new IllegalArgumentException("Nome utente non valido: è nullo o vuoto.");
         }
-        if(firstname == null) {
-            throw new IllegalArgumentException("Nome non valido: è nullo.");
+        if(firstname == null || firstname.length() == 0) {
+            throw new IllegalArgumentException("Nome non valido: è nullo o vuoto.");
         }
-        if(lastname == null) {
-            throw new IllegalArgumentException("Cognome non valido: è nullo.");
+        if(lastname == null || lastname.length() == 0) {
+            throw new IllegalArgumentException("Cognome non valido: è nullo o vuoto.");
         }
         this.username  = username;
         this.firstname = firstname;
