@@ -5,19 +5,12 @@
 
 package it.unipd.mtss.model;
 
-enum itemType {
-  Processor,
-  Motherboard,
-  Mouse,
-  Keyboard
-}
-
 public class EItem {
   private String name;
   private double price;
   private itemType item;
 
-  EItem(String name, double price, itemType item) {
+  public EItem(String name, double price, itemType item) {
     if(name == null || name.length() == 0) {
       throw new IllegalArgumentException("Il nome inserito non deve essere nullo oppure vuoto");
     }
@@ -34,15 +27,15 @@ public class EItem {
     this.item = item;
   }
 
-  String getName() {
+  public String getName() {
     return this.name;
   }
 
-  double getPrice() {
+  public double getPrice() {
     return this.price;
   }
 
-  itemType getItem() {
+  public itemType getItem() {
     return this.item;
   }
 }
