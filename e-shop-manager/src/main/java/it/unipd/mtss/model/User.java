@@ -1,13 +1,9 @@
-<<<<<<< HEAD
-package it.unipd.mtss.model;public class User {
-}
-=======
 ////////////////////////////////////////////////////////////////////
 // [NICHOLAS] [PILOTTO] [1230237]
 // [GIOVANNI] [GARDIN] [2010003]
 ////////////////////////////////////////////////////////////////////
 
-package it.unipd.mtss;
+package it.unipd.mtss.model;
 
 public class User {
     String username = "", firstname = "", lastname = "";
@@ -40,4 +36,3 @@ public class User {
         return lastname;
     }
 }
->>>>>>> ac5c008d99e34089ff5dc03aef6d94ffb10237e4

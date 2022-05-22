@@ -4,7 +4,7 @@
 // [GIOVANNI] [GARDIN] [2010003]
 ////////////////////////////////////////////////////////////////////
 
-package it.unipd.mtss;
+package it.unipd.mtss.model;
 
 import static org.junit.Assert.assertEquals;
 
