@@ -113,7 +113,7 @@ public class RevenueTest {
 
   @Test
   public void getTotalTest() {
-    assertEquals(1195.58, revenue.getOrderPrice(itemsList, user), 0.0);
+    assertEquals(1075.02, revenue.getOrderPrice(itemsList, user), 0.01); //alzo il delta a 1cent?
   }
 
   @Test
@@ -166,13 +166,13 @@ public class RevenueTest {
   @Test
   public void freeItemIfMoreThan10MiceTest() {
       miceList.add(mouse);
-      assertEquals(99.90, revenue.getOrderPrice(miceList, user), 0.0);
+      assertEquals(99.90, revenue.getOrderPrice(miceList, user), 0.01); //alzo il delta a 1cent?
   }
 
   //MTSS-12
   @Test
   public void offerDiscountIfTotalOverThresholdTest() {
-      assertEquals(1085.01, revenue.getOrderPrice(itemsList, user), 0.01); //alzo il delta a 1cent?
+      assertEquals(1075.02, revenue.getOrderPrice(itemsList, user), 0.01); //alzo il delta a 1cent?
   }
 
   //MTSS-12
