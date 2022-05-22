@@ -65,7 +65,7 @@ public class RevenueTest {
     itemsList.add(mouse);
     itemsList.add(processor);
 
-    for (int i = 0; i < freeMouseThreshold; i++) {
+    for (int i = 0; i < freeMouseThreshold - 1; i++) {
       miceList.add(mouse);
     }
     miceList.add(anotherMouse);
@@ -161,15 +161,15 @@ public class RevenueTest {
   }
   //MTSS-10
   @Test
-  public void freeItemIf10MiceTest() {
-      assertEquals(99.90, revenue.getOrderPrice(miceList, user), 0.01); //alzo il delta a 1cent?
+  public void freeMouseIf10MiceTest() {
+      assertEquals(109.66, revenue.getOrderPrice(miceList, user), 0.01); //alzo il delta a 1cent?
   }
 
   //MTSS-10
   @Test
-  public void freeItemIfMoreThan10MiceTest() {
-      miceList.add(mouse);
-      assertEquals(109.66, revenue.getOrderPrice(miceList, user), 0.01); //alzo il delta a 1cent?
+  public void freeMouseIfMoreThan10MiceTest() {
+      miceList.add(anotherMouse); // 2 anotherMouse + 9 mouse
+      assertEquals(119.42, revenue.getOrderPrice(miceList, user), 0.01); //alzo il delta a 1cent?
   }
 
   //MTSS-12
@@ -182,7 +182,7 @@ public class RevenueTest {
   //è necessario?
   @Test
   public void donotOfferDiscountIfTotalOverThresholdTest() {
-      assertEquals(119.65, revenue.getOrderPrice(miceList, user), 0.01); //alzo il delta a 1cent?
+      assertEquals(109.66, revenue.getOrderPrice(miceList, user), 0.01); //alzo il delta a 1cent?
   }
 
     //MTSS-14
