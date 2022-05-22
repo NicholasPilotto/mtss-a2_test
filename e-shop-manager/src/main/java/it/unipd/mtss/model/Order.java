@@ -15,23 +15,26 @@ public class Order {
   double price;
 
   public Order(ArrayList<EItem> items, User user, LocalTime time, double price) {
-    if(items == null || items.size() == 0) {
-      throw new IllegalArgumentException("La lista degli EItems non può essere nulla o vuota");
+    if(items == null) {
+      throw new IllegalArgumentException("La lista degli EItems non può essere nulla.");
+    }
+    if(items.size() == 0) {
+      throw new IllegalArgumentException("La lista degli EItems non può essere vuota.");
     }
     this.items = items;
 
     if(user == null) {
-      throw new IllegalArgumentException("L'utente non può essere nullo");
+      throw new IllegalArgumentException("L'utente non può essere nullo.");
     }
     this.user = user;
 
     if(time == null) {
-      throw new IllegalArgumentException("L'orario non può essere nullo");
+      throw new IllegalArgumentException("L'orario non può essere nullo.");
     }
     this.time = time;
 
     if(price < 0) {
-      throw new IllegalArgumentException("Il prezzo non può essere negativo");
+      throw new IllegalArgumentException("Il prezzo non può essere negativo.");
     }
     this.price = price;
   }

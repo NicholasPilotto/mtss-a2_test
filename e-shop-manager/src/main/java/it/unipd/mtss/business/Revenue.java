@@ -19,9 +19,15 @@ public class Revenue implements Bill {
 
   @Override
   public double getOrderPrice(List<EItem> itemsOrdered, User user) throws BillException {
-
     if(itemsOrdered == null || itemsOrdered.size() == 0) {
       throw new IllegalArgumentException("La lista degli EItems non può essere nulla o vuota");
+    }
+    if(itemsOrdered == null) {
+      throw new IllegalArgumentException("La lista degli EItems non può essere nulla.");
+    }
+
+    if(itemsOrdered.size() == 0) {
+      throw new IllegalArgumentException("La lista degli EItems non può essere vuota.");
     }
 
     double orderPrice;
