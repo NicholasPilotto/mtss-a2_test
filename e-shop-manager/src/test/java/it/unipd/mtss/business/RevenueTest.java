@@ -25,6 +25,7 @@ public class RevenueTest {
   private EItem keyboard;
   private EItem motherboard;
   private EItem mouse;
+  private EItem anotherMouse;
   private EItem processor;
 
   private Revenue revenue;
@@ -46,6 +47,7 @@ public class RevenueTest {
     keyboard = new EItem("Logitech x 300", 45.6, itemType.Keyboard);
     motherboard = new EItem("RoG zy 1080", 1099.99, itemType.Motherboard);
     mouse = new EItem("Asus L3", 9.99, itemType.Mouse);
+    anotherMouse = new EItem("Roccat Pure", 19.75, itemType.Mouse);
     processor = new EItem("Intel i5", 49.99, itemType.Processor);
     freeMouseThreshold = 10; //soglia per ricevere gratis il mouse più economico
 
@@ -66,6 +68,7 @@ public class RevenueTest {
     for (int i = 0; i < freeMouseThreshold; i++) {
       miceList.add(mouse);
     }
+    miceList.add(anotherMouse);
 
     belowThresholdList.add(mouse);
 
@@ -166,7 +169,7 @@ public class RevenueTest {
   @Test
   public void freeItemIfMoreThan10MiceTest() {
       miceList.add(mouse);
-      assertEquals(99.90, revenue.getOrderPrice(miceList, user), 0.01); //alzo il delta a 1cent?
+      assertEquals(109.66, revenue.getOrderPrice(miceList, user), 0.01); //alzo il delta a 1cent?
   }
 
   //MTSS-12
@@ -179,7 +182,7 @@ public class RevenueTest {
   //è necessario?
   @Test
   public void donotOfferDiscountIfTotalOverThresholdTest() {
-      assertEquals(99.90, revenue.getOrderPrice(miceList, user), 0.01); //alzo il delta a 1cent?
+      assertEquals(119.65, revenue.getOrderPrice(miceList, user), 0.01); //alzo il delta a 1cent?
   }
 
     //MTSS-14
