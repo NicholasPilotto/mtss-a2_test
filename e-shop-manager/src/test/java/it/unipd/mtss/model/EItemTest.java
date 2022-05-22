@@ -3,7 +3,7 @@
 // [GIOVANNI] [GARDIN] [2010003]
 ////////////////////////////////////////////////////////////////////
 
-package it.unipd.mtss;
+package it.unipd.mtss.model;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -20,10 +20,18 @@ public class EItemTest {
 
   @Before
   public void setUpObject() {
-    keyboard = new EItem("Logitec x 300", 45.6, itemType.Keyboard);
+    keyboard = new EItem("Logitech x 300", 45.6, itemType.Keyboard);
     motherboard = new EItem("RoG zy 1080", 1099.99, itemType.Motherboard);
     mouse = new EItem("Asus L3", 9.99, itemType.Mouse);
     processor = new EItem("Intel i5", 49.99, itemType.Processor);
+  }
+
+  @Test
+  public void constructorEItemNotNullTest() {
+    assertNotNull(keyboard);
+    assertNotNull(motherboard);
+    assertNotNull(mouse);
+    assertNotNull(processor);
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -38,22 +46,22 @@ public class EItemTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void priceEItemIsNegativeTest() {
-    new EItem("Logitec", -1f, itemType.Keyboard);
+    new EItem("Logitech", -1f, itemType.Keyboard);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void priceEItemIsZeroTest() {
-    new EItem("Logitec", 0f, itemType.Keyboard);
+    new EItem("Logitech", 0f, itemType.Keyboard);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void itemTypeEItemIsNullTest() {
-    new EItem("Logitec", 1f, null);
+    new EItem("Logitech", 1f, null);
   }
 
   @Test
   public void itemGetNameTest() {
-    assertEquals("Logitec x 300", keyboard.getName());
+    assertEquals("Logitech x 300", keyboard.getName());
     assertEquals("RoG zy 1080", motherboard.getName());
     assertEquals("Asus L3", mouse.getName());
     assertEquals("Intel i5", processor.getName());
