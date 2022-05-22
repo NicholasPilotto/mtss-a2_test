@@ -12,7 +12,7 @@ import it.unipd.mtss.model.itemType;
 import it.unipd.mtss.model.User;
 
 import java.time.LocalTime;
-import java.util.*;
+import java.util.*; //da cambiare
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Revenue implements Bill {
@@ -24,11 +24,11 @@ public class Revenue implements Bill {
     }
 
     if(itemsOrdered.size() == 0) {
-      throw new BillException("La lista degli EItems non può essere vuota");
+      throw new BillException("La lista degli EItems non può essere vuota.");
     }
 
     if(itemsOrdered.size() > 30) {
-      throw new BillException("Non è possibile eseguire un ordinazione con più di 30 elementi");
+      throw new BillException("Non è possibile eseguire un ordinazione con più di 30 elementi.");
     }
 
     double orderPrice = 0.0;
@@ -52,15 +52,13 @@ public class Revenue implements Bill {
           mouseList.add(item);
           break;
       }
-
-
       orderPrice += item.getPrice();
     }
     if(keyboardList.size() != 0 && keyboardList.size() == mouseList.size()) {
       totalSale += freeObject(keyboardList, mouseList);
     }
     totalSale += getSaleIf5Processor(itemsOrdered);
-    return orderPrice  - totalSale;
+    return orderPrice - totalSale;
   }
 
   double getSaleIf5Processor(List<EItem> itemsOrdered) {
@@ -172,11 +170,11 @@ public class Revenue implements Bill {
     ArrayList<Order> freeOrders = new ArrayList<>();
 
     if(orders == null) {
-      throw new BillException("La lista degli ordini da regalare non deve essere nulla");
+      throw new BillException("La lista degli ordini da regalare non deve essere nulla.");
     }
 
     if(orders.size() == 0) {
-      throw new BillException("La lista degli ordini da regalare non deve essere vuota");
+      throw new BillException("La lista degli ordini da regalare non deve essere vuota.");
     }
 
     ArrayList<Order> orderPool = new ArrayList<>();

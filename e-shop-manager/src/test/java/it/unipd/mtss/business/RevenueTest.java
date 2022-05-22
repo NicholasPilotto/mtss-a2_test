@@ -50,7 +50,6 @@ public class RevenueTest {
     freeMouseThreshold = 10; //soglia per ricevere gratis il mouse più economico
 
     emptyList = new ArrayList<EItem>();
-
     itemsList = new ArrayList<EItem>();
     miceList = new ArrayList<EItem>();
     belowThresholdList = new ArrayList<EItem>();
@@ -58,13 +57,16 @@ public class RevenueTest {
     nullList = new ArrayList<>();
     nullList.add(keyboard);
     nullList.add(null);
+
     itemsList.add(keyboard);
     itemsList.add(motherboard);
     itemsList.add(mouse);
     itemsList.add(processor);
+
     for (int i = 0; i < freeMouseThreshold; i++) {
       miceList.add(mouse);
     }
+
     belowThresholdList.add(mouse);
 
     nullList = new ArrayList<EItem>();
@@ -157,7 +159,7 @@ public class RevenueTest {
   //MTSS-10
   @Test
   public void freeItemIf10MiceTest() {
-      assertEquals(99.90, revenue.getOrderPrice(miceList, user), 0.0);
+      assertEquals(99.90, revenue.getOrderPrice(miceList, user), 0.01); //alzo il delta a 1cent?
   }
 
   //MTSS-10
@@ -170,14 +172,14 @@ public class RevenueTest {
   //MTSS-12
   @Test
   public void offerDiscountIfTotalOverThresholdTest() {
-      assertEquals(1085.01, revenue.getOrderPrice(itemsList, user), 0.0); //alzo il delta a 1cent?
+      assertEquals(1085.01, revenue.getOrderPrice(itemsList, user), 0.01); //alzo il delta a 1cent?
   }
 
   //MTSS-12
   //è necessario?
   @Test
   public void donotOfferDiscountIfTotalOverThresholdTest() {
-      assertEquals(99.90, revenue.getOrderPrice(miceList, user), 0.0);
+      assertEquals(99.90, revenue.getOrderPrice(miceList, user), 0.01); //alzo il delta a 1cent?
   }
 
     //MTSS-14
