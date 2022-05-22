@@ -46,6 +46,11 @@ public class UserTest {
   }
 
   @Test(expected = IllegalArgumentException.class)
+  public void lastnameUserEmptyTest() {
+    new User("jdoe", "John", "", 18);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
   public void ageUserNegativeTest() {
     new User("jdoe", "John", "Doe", -1);
   }
