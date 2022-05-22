@@ -39,27 +39,20 @@ public class Revenue implements Bill {
   }
 
   double getSaleIf5Processor(List<EItem> itemsOrdered) {
+
+    double min = Double.MAX_VALUE;
     ArrayList<EItem> processors = new ArrayList<>();
     for (EItem item : itemsOrdered) {
       if (item.getItem().equals(itemType.Processor)) {
+        if(item.getPrice() <= min) {
+          min = item.getPrice();
+        }
         processors.add(item);
       }
     }
 
     if (processors.size() > 5) {
-      Collections.sort(processors, new Comparator<EItem>() {
-        @Override
-        public int compare(EItem z1, EItem z2) {
-          if (z1.getPrice() > z2.getPrice()) {
-            return 1;
-          } else if (z1.getPrice() < z2.getPrice()) {
-            return -1;
-          }
-          return 0;
-        }
-      });
-      EItem cheaper = processors.get(0);
-      return cheaper.getPrice() * 0.5;
+      return min * 0.5;
     }
 
     return 0;
