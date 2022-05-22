@@ -12,7 +12,11 @@ import it.unipd.mtss.model.itemType;
 import it.unipd.mtss.model.User;
 
 import java.time.LocalTime;
-import java.util.*; //da cambiare
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Revenue implements Bill {
