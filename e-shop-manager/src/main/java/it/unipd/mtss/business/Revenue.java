@@ -132,7 +132,6 @@ public class Revenue implements Bill {
       for (int i = 0; i < mice.size(); i++) {
         if (mice.get(i).getPrice() < minPrice) {
           minPrice = mice.get(i).getPrice();
-          minPrice = minPrice;
         }
       }
     }
