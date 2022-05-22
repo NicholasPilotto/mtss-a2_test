@@ -12,8 +12,7 @@ import it.unipd.mtss.model.itemType;
 import it.unipd.mtss.model.User;
 
 import java.time.LocalTime;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Revenue implements Bill {
@@ -87,19 +86,86 @@ public class Revenue implements Bill {
     double min1 = Double.MAX_VALUE;
     double min2 = Double.MAX_VALUE;
 
-    for(EItem item: list1) {
-      if(item.getPrice() <= min1) {
+    for (EItem item : list1) {
+      if (item.getPrice() <= min1) {
         min1 = item.getPrice();
       }
     }
 
-    for(EItem item : list2) {
-      if(item.getPrice() <= min1) {
+    for (EItem item : list2) {
+      if (item.getPrice() <= min1) {
         min2 = item.getPrice();
       }
     }
 
     return Math.min(min1, min2);
+  }
+  //MTSS-10
+  double freeItemIf10Mice(List<EItem> itemsOrdered) {
+    ArrayList<EItem> mice = new ArrayList<>();
+    for (EItem item : itemsOrdered) {
+      if (item.getItem().equals(itemType.Mouse)) {
+        mice.add(item);
+      }
+    }
+
+    if (mice.size() > 10) {
+      Collections.sort(mice, new Comparator<EItem>() {
+        @Override
+        public int compare(EItem z1, EItem z2) {
+          if (z1.getPrice() > z2.getPrice()) {
+            return 1;
+          } else if (z1.getPrice() < z2.getPrice()) {
+            return -1;
+          }
+          return 0;
+        }
+      });
+      EItem cheaper = mice.get(0);
+      return cheaper.getPrice();
+    }
+
+    return 0;
+  }
+
+  //MTSS-12
+  double offerDiscountIfTotalOverThreshold(List<EItem> itemsOrdered) {
+    double total;
+    double threshold;
+    double discount;
+
+    total = 0.0;
+    threshold = 1000.0;
+    discount = 0.0;
+
+    for (EItem item : itemsOrdered) {
+      total += item.getPrice();
+    }
+    if (total > threshold) {
+      discount = total * 0.1;
+    }
+
+    return discount;
+  }
+
+  //MTSS-14
+  double addFee(List<EItem> itemsOrdered) {
+    double total;
+    double threshold;
+    double fee;
+
+    total = 0.0;
+    threshold = 10.0;
+    fee = 2.0;
+
+    for (EItem item : itemsOrdered) {
+      total += item.getPrice();
+    }
+    if (total < threshold) {
+      return fee;
+    }
+
+    return 0.0;
   }
 
   public List<Order> giveAway(List<Order> orders) throws BillException {
@@ -115,8 +181,8 @@ public class Revenue implements Bill {
 
     ArrayList<Order> orderPool = new ArrayList<>();
     for(Order order: orders) {
-      if(order.getUser().getAge() >= 18) {
-        if(order.getTime().isAfter(LocalTime.of(18, 0, 0)) && order.getTime().isBefore(LocalTime.of(19, 0, 0))) {
+      if(order.getUser().getAge() <= 18) {
+        if(order.getTime().isAfter(LocalTime.of(17, 59, 59)) && order.getTime().isBefore(LocalTime.of(19, 0, 1))) {
           orderPool.add(order);
         }
       }
@@ -124,17 +190,17 @@ public class Revenue implements Bill {
 
     if(orderPool.size() > 0) {
       int max = orderPool.size() > 10 ? 10 : orderPool.size();
-      for(int i = 0; i < 11; i++) {
-
-        int randomNum = ThreadLocalRandom.current().nextInt(1,  max + 1);
-        if(orderPool.get(i).getPrice() == 0) {
-          i--;
-        } else {
-          orderPool.get(randomNum).setPrice(0);
-        }
+      for(int i = 0; i < max + 1; i++) {
+        Random randomGenerator = new Random();
+          int index = randomGenerator.nextInt(orderPool.size());
+          if(orderPool.get(index).getPrice() != 0) {
+            orderPool.get(index).setPrice(0);
+            freeOrders.add(orderPool.get(i));
+          }
       }
     }
 
     return freeOrders;
   }
 }
+

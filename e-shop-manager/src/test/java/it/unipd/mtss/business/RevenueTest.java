@@ -13,8 +13,8 @@ import it.unipd.mtss.model.itemType;
 import it.unipd.mtss.model.User;
 
 import java.awt.image.AreaAveragingScaleFilter;
+import java.time.LocalTime;
 import java.util.ArrayList;
-
 
 import static org.junit.Assert.assertEquals;
 
@@ -30,9 +30,13 @@ public class RevenueTest {
   private Revenue revenue;
   private User user;
 
+  private int freeMouseThreshold;
+
   private ArrayList<EItem> emptyList;
   private ArrayList<EItem> nullList;
   private ArrayList<EItem> itemsList;
+  private ArrayList<EItem> miceList;
+  private ArrayList<EItem> belowThresholdList;
   private ArrayList<EItem> processors6List;
   private ArrayList<EItem> processor4List;
   private ArrayList<EItem> keyboardMouseList;
@@ -43,14 +47,25 @@ public class RevenueTest {
     motherboard = new EItem("RoG zy 1080", 1099.99, itemType.Motherboard);
     mouse = new EItem("Asus L3", 9.99, itemType.Mouse);
     processor = new EItem("Intel i5", 49.99, itemType.Processor);
+    freeMouseThreshold = 10; //soglia per ricevere gratis il mouse più economico
 
     emptyList = new ArrayList<EItem>();
 
     itemsList = new ArrayList<EItem>();
+    miceList = new ArrayList<EItem>();
+    belowThresholdList = new ArrayList<EItem>();
+
+    nullList = new ArrayList<>();
+    nullList.add(keyboard);
+    nullList.add(null);
     itemsList.add(keyboard);
     itemsList.add(motherboard);
     itemsList.add(mouse);
     itemsList.add(processor);
+    for (int i = 0; i < freeMouseThreshold; i++) {
+      miceList.add(mouse);
+    }
+    belowThresholdList.add(mouse);
 
     nullList = new ArrayList<EItem>();
     nullList.add(keyboard);
@@ -139,4 +154,81 @@ public class RevenueTest {
   public void giveAwayOrdersEmptyList() {
     revenue.giveAway(new ArrayList<Order>());
   }
+  //MTSS-10
+  @Test
+  public void freeItemIf10MiceTest() {
+      assertEquals(99.90, revenue.getOrderPrice(miceList, user), 0.0);
+  }
+
+  //MTSS-10
+  @Test
+  public void freeItemIfMoreThan10MiceTest() {
+      miceList.add(mouse);
+      assertEquals(99.90, revenue.getOrderPrice(miceList, user), 0.0);
+  }
+
+  //MTSS-12
+  @Test
+  public void offerDiscountIfTotalOverThresholdTest() {
+      assertEquals(1085.01, revenue.getOrderPrice(itemsList, user), 0.0); //alzo il delta a 1cent?
+  }
+
+  //MTSS-12
+  //è necessario?
+  @Test
+  public void donotOfferDiscountIfTotalOverThresholdTest() {
+      assertEquals(99.90, revenue.getOrderPrice(miceList, user), 0.0);
+  }
+
+    //MTSS-14
+  @Test
+  public void addFeeTest() {
+      assertEquals(11.99, revenue.getOrderPrice(belowThresholdList, user), 0.0);
+  }
+
+  @Test(expected = BillException.class)
+  public void giveAwayNullListTest() {
+    revenue.giveAway(null);
+  }
+
+  @Test(expected = BillException.class)
+  public void giveAwayEmptyListTest() {
+    revenue.giveAway(new ArrayList<Order>());
+  }
+
+  @Test
+  public void giveAwayNoFreeOrderTest() {
+    Order order = new Order(itemsList, user, LocalTime.of(20, 0,0), 200);
+    ArrayList<Order> aux = new ArrayList<>();
+    aux.add(order);
+    assertEquals(0, revenue.giveAway(aux).size());
+  }
+
+  @Test
+  public void giveAwayWrongHourRangeTest() {
+    User user = new User("MargheritaHack", "Margherita", "Hack", 17);
+    Order order = new Order(itemsList, user, LocalTime.of(20, 0,0), 200);
+    ArrayList<Order> aux = new ArrayList<>();
+    aux.add(order);
+    assertEquals(0, revenue.giveAway(aux).size());
+  }
+
+  @Test
+  public void giveAwayWrongAgeTest() {
+    User user = new User("MargheritaHack", "Margherita", "Hack", 20);
+    Order order = new Order(itemsList, user, LocalTime.of(18, 30,0), 200);
+    ArrayList<Order> aux = new ArrayList<>();
+    aux.add(order);
+    assertEquals(0, revenue.giveAway(aux).size());
+  }
+
+  @Test
+  public void giveAwayTest() {
+    User user = new User("MargheritaHack", "Margherita", "Hack", 18);
+    Order order = new Order(itemsList, user, LocalTime.of(18, 30,0), 200);
+    ArrayList<Order> aux = new ArrayList<>();
+    aux.add(order);
+    assertEquals(1, revenue.giveAway(aux).size());
+  }
+
 }
