@@ -65,10 +65,10 @@ public class RevenueTest {
     itemsList.add(mouse);
     itemsList.add(processor);
 
+    miceList.add(anotherMouse);
     for (int i = 0; i < freeMouseThreshold - 1; i++) {
       miceList.add(mouse);
     }
-    miceList.add(anotherMouse);
 
     belowThresholdList.add(mouse);
 
@@ -179,6 +179,7 @@ public class RevenueTest {
   public void giveAwayOrdersEmptyList() {
     revenue.giveAway(new ArrayList<Order>());
   }
+
   //MTSS-10
   @Test
   public void freeMouseIf10MiceTest() {
