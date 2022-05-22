@@ -70,6 +70,10 @@ public class Revenue implements Bill {
   }
 
   double getSaleIf5Processor(List<EItem> itemsOrdered) {
+    if(itemsOrdered == null) {
+      throw new BillException("La lista degli EItems non può essere nulla.");
+    }
+
     double min = Double.MAX_VALUE;
     ArrayList<EItem> processors = new ArrayList<>();
     for (EItem item: itemsOrdered) {
@@ -106,9 +110,17 @@ public class Revenue implements Bill {
 
     return Math.min(min1, min2);
   }
+
   //MTSS-10
   double freeItemIf10Mice(List<EItem> itemsOrdered) {
+    if(itemsOrdered == null) {
+      throw new BillException("La lista degli EItems non può essere nulla.");
+    }
+
+    double minPrice;
+    minPrice = 0.0;
     ArrayList<EItem> mice = new ArrayList<>();
+
     for (EItem item : itemsOrdered) {
       if (item.getItem().equals(itemType.Mouse)) {
         mice.add(item);
@@ -116,26 +128,24 @@ public class Revenue implements Bill {
     }
 
     if (mice.size() > 10) {
-      Collections.sort(mice, new Comparator<EItem>() {
-        @Override
-        public int compare(EItem z1, EItem z2) {
-          if (z1.getPrice() > z2.getPrice()) {
-            return 1;
-          } else if (z1.getPrice() < z2.getPrice()) {
-            return -1;
-          }
-          return 0;
+      minPrice = mice.get(0).getPrice();
+      for (int i = 0; i < mice.size(); i++) {
+        if (mice.get(i).getPrice() < minPrice) {
+          minPrice = mice.get(i).getPrice();
         }
-      });
-      EItem cheaper = mice.get(0);
-      return cheaper.getPrice();
+      }
     }
 
-    return 0;
+    return minPrice;
+
   }
 
   //MTSS-12
   double offerDiscountIfTotalOverThreshold(List<EItem> itemsOrdered) {
+    if(itemsOrdered == null) {
+      throw new BillException("La lista degli EItems non può essere nulla.");
+    }
+
     double total;
     double threshold;
     double discount;
@@ -156,6 +166,10 @@ public class Revenue implements Bill {
 
   //MTSS-14
   double addFee(List<EItem> itemsOrdered) {
+    if(itemsOrdered == null) {
+      throw new BillException("La lista degli EItems non può essere nulla.");
+    }
+
     double total;
     double threshold;
     double fee;
