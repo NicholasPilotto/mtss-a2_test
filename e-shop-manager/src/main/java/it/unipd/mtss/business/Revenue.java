@@ -53,10 +53,11 @@ public class Revenue implements Bill {
       Collections.sort(processors, new Comparator<EItem>() {
         @Override
         public int compare(EItem z1, EItem z2) {
-          if (z1.getPrice() > z2.getPrice())
+          if (z1.getPrice() > z2.getPrice()) {
             return 1;
-          if (z1.getPrice() < z2.getPrice())
+          } else if (z1.getPrice() < z2.getPrice()) {
             return -1;
+          }
           return 0;
         }
       });
