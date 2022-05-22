@@ -11,6 +11,7 @@ import it.unipd.mtss.model.EItem;
 import it.unipd.mtss.model.itemType;
 import it.unipd.mtss.model.User;
 
+import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
@@ -34,6 +35,9 @@ public class RevenueTest {
   private ArrayList<EItem> itemsList;
   private ArrayList<EItem> miceList;
   private ArrayList<EItem> belowThresholdList;
+  private ArrayList<EItem> processors6List;
+  private ArrayList<EItem> processor4List;
+  private ArrayList<EItem> keyboardMouseList;
 
   @Before
   public void setUpObject() {
@@ -44,7 +48,7 @@ public class RevenueTest {
     freeMouseThreshold = 10; //soglia per ricevere gratis il mouse più economico
 
     emptyList = new ArrayList<EItem>();
-    nullList = new ArrayList<EItem>();
+
     itemsList = new ArrayList<EItem>();
     miceList = new ArrayList<EItem>();
     belowThresholdList = new ArrayList<EItem>();
@@ -60,29 +64,82 @@ public class RevenueTest {
     }
     belowThresholdList.add(mouse);
 
+    nullList = new ArrayList<EItem>();
+    nullList.add(keyboard);
+    nullList.add(null);
+
+    keyboardMouseList = new ArrayList<>();
+    keyboardMouseList.add(keyboard);
+    keyboardMouseList.add(mouse);
+
+    processors6List = new ArrayList<>();
+    processors6List.add(new EItem("Intel i1", 49.99, itemType.Processor));
+    processors6List.add(new EItem("Intel i2", 79.99, itemType.Processor));
+    processors6List.add(new EItem("Intel i3", 19.99, itemType.Processor));
+    processors6List.add(new EItem("Intel i4", 29.99, itemType.Processor));
+    processors6List.add(new EItem("Intel i5", 109.99, itemType.Processor));
+    processors6List.add(new EItem("Intel i6", 89.99, itemType.Processor));
+
+    processor4List = new ArrayList<>();
+    processor4List.add(new EItem("Intel i7", 99.99, itemType.Processor));
+    processor4List.add(new EItem("Intel i8", 29.99, itemType.Processor));
+    processor4List.add(new EItem("Intel i9", 69.99, itemType.Processor));
+    processor4List.add(new EItem("Intel i10", 19.99, itemType.Processor));
+
     user = new User("MarioRossi", "Mario", "Rossi");
 
     revenue = new Revenue();
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test(expected = BillException.class)
   public void getTotalNullTest() {
     revenue.getOrderPrice(null, user);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test(expected = BillException.class)
   public void getTotalEmptyArrayListTest() {
     revenue.getOrderPrice(emptyList, user);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test(expected = BillException.class)
   public void getTotalNullArrayListTest() {
     revenue.getOrderPrice(nullList, user);
   }
 
   @Test
   public void getTotalTest() {
-    assertEquals(1205.57, revenue.getOrderPrice(itemsList, user), 0.0);
+    assertEquals(1195.58, revenue.getOrderPrice(itemsList, user), 0.0);
+  }
+
+  @Test
+  public void getTotalWithProcessorsSaleTest() {
+    assertEquals(369.95, revenue.getOrderPrice(processors6List, user), 0.1);
+  }
+
+  @Test
+  public void getTotalWithNoProcessorSaleTest() {
+    assertEquals(219.96, revenue.getOrderPrice(processor4List, user), 0.1);
+  }
+
+  @Test
+  public void getTotalWithSameKeyboardAndMouseTest() {
+    assertEquals(45.6, revenue.getOrderPrice(keyboardMouseList, user), 0.0);
+  }
+
+  @Test
+  public void getTotalWithDifferenteKeyboardAndMouseTest() {
+    keyboardMouseList.add(new EItem("Asus Keyboard", 19.99, itemType.Keyboard));
+    assertEquals(75.58, revenue.getOrderPrice(keyboardMouseList, user), 0.1);
+  }
+
+  @Test(expected = BillException.class)
+  public void orderWithMore30OItemTest() {
+    ArrayList<EItem> _items = new ArrayList<>();
+    for(int i = 0; i < 36; i++) {
+      _items.add(new EItem("Asus Keyboard", 19.99, itemType.Keyboard));
+    }
+
+    revenue.getOrderPrice(_items, user);
   }
 
   //MTSS-10
