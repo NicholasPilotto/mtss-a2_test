@@ -11,6 +11,7 @@ import it.unipd.mtss.model.EItem;
 import it.unipd.mtss.model.itemType;
 import it.unipd.mtss.model.User;
 
+import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
 
 
@@ -116,5 +117,15 @@ public class RevenueTest {
   public void getTotalWithDifferenteKeyboardAndMouseTest() {
     keyboardMouseList.add(new EItem("Asus Keyboard", 19.99, itemType.Keyboard));
     assertEquals(75.58, revenue.getOrderPrice(keyboardMouseList, user), 0.1);
+  }
+
+  @Test(expected = BillException.class)
+  public void orderWithMore30OItemTest() {
+    ArrayList<EItem> _items = new ArrayList<>();
+    for(int i = 0; i < 36; i++) {
+      _items.add(new EItem("Asus Keyboard", 19.99, itemType.Keyboard));
+    }
+
+    revenue.getOrderPrice(_items, user);
   }
 }

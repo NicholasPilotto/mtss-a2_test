@@ -27,6 +27,10 @@ public class Revenue implements Bill {
       throw new BillException("La lista degli EItems non può essere vuota");
     }
 
+    if(itemsOrdered.size() > 30) {
+      throw new BillException("Non è possibile eseguire un ordinazione con più di 30 elementi");
+    }
+
     double orderPrice = 0.0;
     double totalSale = 0.0;
     ArrayList<EItem> processorList = new ArrayList<>();
