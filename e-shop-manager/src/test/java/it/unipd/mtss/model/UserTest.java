@@ -47,12 +47,12 @@ public class UserTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void ageUserNegativeTest() {
-    new User("jdoe", "John", "", -1);
+    new User("jdoe", "John", "Doe", -1);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void ageUserZeroTest() {
-    new User("jdoe", "John", "", 0);
+    new User("jdoe", "John", "Doe", 0);
   }
 
   @Test

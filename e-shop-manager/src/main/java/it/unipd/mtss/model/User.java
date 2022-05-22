@@ -30,10 +30,10 @@ public class User {
             throw new IllegalArgumentException("Il cognome non può essere vuoto.");
         }
         if(age < 0) {
-            throw new IllegalArgumentException("L'età non può essere negativa");
+            throw new IllegalArgumentException("L'età non può essere negativa.");
         }
         if(age == 0) {
-            throw new IllegalArgumentException("L'età non può essere uguale a 0");
+            throw new IllegalArgumentException("L'età non può essere uguale a 0.");
         }
         this.username  = username;
         this.firstname = firstname;
