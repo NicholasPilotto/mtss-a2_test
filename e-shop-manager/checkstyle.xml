@@ -5,7 +5,7 @@
         <property name="header" value="////////////////////////////////////////////////////////////////////\n// [NICHOLAS] [PILOTTO] [1230237]\n// [GIOVANNI] [GARDIN] [2010003]\n////////////////////////////////////////////////////////////////////" />
     </module>
     <module name="FileLength">
-        <property name="max" value="100" />
+        <property name="max" value="150" />
     </module>
     <module name="FileTabCharacter"/>
     <module name="LineLength">
@@ -13,7 +13,9 @@
     </module>
     <module name="TreeWalker">
         <module name="BooleanExpressionComplexity"/>
-        <module name="CyclomaticComplexity" />
+        <module name="CyclomaticComplexity">
+            <property name="max" value="13" />
+        </module>
         <module name="MethodLength"/>
         <module name="EmptyCatchBlock">
             <property name="exceptionVariableName" value="expected|ignore"/>
