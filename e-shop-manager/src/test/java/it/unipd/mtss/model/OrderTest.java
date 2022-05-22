@@ -76,6 +76,11 @@ public class OrderTest {
     assertEquals(9.99, order.getPrice(), 0.0);
   }
 
+  @Test(expected = IllegalArgumentException.class)
+  public void orderSetNegativePriceTest() {
+    order.setPrice(-1);
+  }
+
   @Test
   public void orderSetPriceTest() {
     order.setPrice(15.99);
