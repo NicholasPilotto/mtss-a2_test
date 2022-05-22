@@ -33,6 +33,7 @@ public class Revenue implements Bill {
 
     double orderPrice = 0.0;
     double totalSale = 0.0;
+    double totalFees = 0.0;
     ArrayList<EItem> processorList = new ArrayList<>();
     ArrayList<EItem> mouseList = new ArrayList<>();
     ArrayList<EItem> keyboardList = new ArrayList<>();
@@ -58,7 +59,10 @@ public class Revenue implements Bill {
       totalSale += freeObject(keyboardList, mouseList);
     }
     totalSale += getSaleIf5Processor(itemsOrdered);
-    return orderPrice - totalSale;
+    totalSale += freeItemIf10Mice(itemsOrdered);
+    totalSale += offerDiscountIfTotalOverThreshold(itemsOrdered);
+    totalFees += addFee(itemsOrdered);
+    return orderPrice - totalSale + totalFees;
   }
 
   double getSaleIf5Processor(List<EItem> itemsOrdered) {
