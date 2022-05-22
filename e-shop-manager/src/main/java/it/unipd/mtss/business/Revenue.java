@@ -32,7 +32,7 @@ public class Revenue implements Bill {
     }
 
     double orderPrice = 0.0;
-    double totalSale = 0.0;
+    double totalDiscount = 0.0;
     double totalFees = 0.0;
     ArrayList<EItem> processorList = new ArrayList<>();
     ArrayList<EItem> mouseList = new ArrayList<>();
@@ -56,13 +56,13 @@ public class Revenue implements Bill {
       orderPrice += item.getPrice();
     }
     if(keyboardList.size() != 0 && keyboardList.size() == mouseList.size()) {
-      totalSale += freeObject(keyboardList, mouseList);
+      totalDiscount += freeObject(keyboardList, mouseList);
     }
-    totalSale += getSaleIf5Processor(itemsOrdered);
-    totalSale += freeItemIf10Mice(itemsOrdered);
-    totalSale += offerDiscountIfTotalOverThreshold(itemsOrdered);
+    totalDiscount += getSaleIf5Processor(itemsOrdered);
+    totalDiscount += freeItemIf10Mice(itemsOrdered);
+    totalDiscount += offerDiscountIfTotalOverThreshold(itemsOrdered);
     totalFees += addFee(itemsOrdered);
-    return orderPrice - totalSale + totalFees;
+    return orderPrice - totalDiscount + totalFees;
   }
 
   double getSaleIf5Processor(List<EItem> itemsOrdered) {
