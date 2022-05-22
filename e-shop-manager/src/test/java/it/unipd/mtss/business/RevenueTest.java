@@ -114,6 +114,26 @@ public class RevenueTest {
     revenue.getOrderPrice(nullList, user);
   }
 
+  @Test(expected = BillException.class)
+  public void getSaleIf5ProcessorNullTest() {
+    revenue.getSaleIf5Processor(null);
+  }
+
+  @Test(expected = BillException.class)
+  public void freeItemIf10MiceNullTest() {
+    revenue.freeItemIf10Mice(null);
+  }
+
+  @Test(expected = BillException.class)
+  public void offerDiscountIfTotalOverThresholdNullTest() {
+    revenue.offerDiscountIfTotalOverThreshold(null);
+  }
+
+  @Test(expected = BillException.class)
+  public void addFeeNullTest() {
+    revenue.addFee(null);
+  }
+
   @Test
   public void getTotalTest() {
     assertEquals(1075.02, revenue.getOrderPrice(itemsList, user), 0.01); //alzo il delta a 1cent?
