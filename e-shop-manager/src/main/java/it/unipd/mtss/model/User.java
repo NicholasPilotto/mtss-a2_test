@@ -7,8 +7,9 @@ package it.unipd.mtss.model;
 
 public class User {
     String username = "", firstname = "", lastname = "";
+    int age;
 
-    public User(String username, String firstname, String lastname) {
+    public User(String username, String firstname, String lastname, int age) {
 
         if(username == null) {
             throw new IllegalArgumentException("Il nome utente non può essere nullo.");
@@ -28,9 +29,16 @@ public class User {
         if(lastname.length() == 0) {
             throw new IllegalArgumentException("Il cognome non può essere vuoto.");
         }
+        if(age < 0) {
+            throw new IllegalArgumentException("L'età non può essere negativa");
+        }
+        if(age == 0) {
+            throw new IllegalArgumentException("L'età non può essere uguale a 0");
+        }
         this.username  = username;
         this.firstname = firstname;
         this.lastname  = lastname;
+        this.age = age;
     }
 
     public String getUsername() {
@@ -43,5 +51,9 @@ public class User {
 
     public String getLastname() {
         return lastname;
+    }
+
+    public int getAge() {
+        return age;
     }
 }

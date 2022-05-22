@@ -17,37 +17,42 @@ public class UserTest {
 
   @Before
   public void setUpObject() {
-    mock = new User("jdoe", "John", "Doe");
+    mock = new User("jdoe", "John", "Doe", 18);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void usernameUserNullTest() {
-    new User(null, "John", "Doe");
+    new User(null, "John", "Doe", 18);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void usernameUserEmptyTest() {
-    new User("", "John", "Doe");
+    new User("", "John", "Doe", 18);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void firstnameUserNullTest() {
-    new User("jdoe", null, "Doe");
+    new User("jdoe", null, "Doe", 18);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void firstnameUserEmptyTest() {
-    new User("jdoe", "", "Doe");
+    new User("jdoe", "", "Doe", 18);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void lastnameUserNullTest() {
-    new User("jdoe", "John", null);
+    new User("jdoe", "John", null, 18);
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void lastnameUserEmptyTest() {
-    new User("jdoe", "John", "");
+  public void ageUserNegativeTest() {
+    new User("jdoe", "John", "", -1);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void ageUserZeroTest() {
+    new User("jdoe", "John", "", 0);
   }
 
   @Test

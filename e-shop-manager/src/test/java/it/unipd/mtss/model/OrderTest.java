@@ -23,7 +23,7 @@ public class OrderTest {
     items = new ArrayList<EItem>();
     items.add(new EItem("Logitech", 9.99, itemType.Mouse));
 
-    user = new User("RossiMario", "Mario", "Rossi");
+    user = new User("RossiMario", "Mario", "Rossi", 45);
 
     time = LocalTime.of(10, 0, 0);
 

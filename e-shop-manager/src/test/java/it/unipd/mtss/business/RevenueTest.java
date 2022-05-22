@@ -8,6 +8,7 @@ package it.unipd.mtss.business;
 import it.unipd.mtss.business.exception.BillException;
 import it.unipd.mtss.model.EItem;
 
+import it.unipd.mtss.model.Order;
 import it.unipd.mtss.model.itemType;
 import it.unipd.mtss.model.User;
 
@@ -73,7 +74,7 @@ public class RevenueTest {
     processor4List.add(new EItem("Intel i9", 69.99, itemType.Processor));
     processor4List.add(new EItem("Intel i10", 19.99, itemType.Processor));
 
-    user = new User("MarioRossi", "Mario", "Rossi");
+    user = new User("MarioRossi", "Mario", "Rossi", 45);
 
     revenue = new Revenue();
   }
@@ -127,5 +128,15 @@ public class RevenueTest {
     }
 
     revenue.getOrderPrice(_items, user);
+  }
+
+  @Test(expected = BillException.class)
+  public void giveAwayOrdersNullList() {
+    revenue.giveAway(null);
+  }
+
+  @Test(expected = BillException.class)
+  public void giveAwayOrdersEmptyList() {
+    revenue.giveAway(new ArrayList<Order>());
   }
 }
