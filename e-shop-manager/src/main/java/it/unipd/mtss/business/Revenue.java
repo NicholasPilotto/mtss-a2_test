@@ -27,19 +27,39 @@ public class Revenue implements Bill {
       throw new BillException("La lista degli EItems non può essere vuota");
     }
 
-    double orderPrice;
-    orderPrice = 0.0;
-    for (int i = 0; i < itemsOrdered.size(); i++) {
-      if (itemsOrdered.get(i) == null) {
+    double orderPrice = 0.0;
+    double totalSale = 0.0;
+    ArrayList<EItem> processorList = new ArrayList<>();
+    ArrayList<EItem> mouseList = new ArrayList<>();
+    ArrayList<EItem> keyboardList = new ArrayList<>();
+
+    for (EItem item : itemsOrdered) {
+      if (item == null) {
         throw new BillException("La lista contiene un oggetto nullo.");
       }
-      orderPrice += itemsOrdered.get(i).getPrice();
+      switch (item.getItem()) {
+        case Processor:
+          processorList.add(item);
+          break;
+        case Keyboard:
+          keyboardList.add(item);
+          break;
+        case Mouse:
+          mouseList.add(item);
+          break;
+      }
+
+
+      orderPrice += item.getPrice();
     }
-    return orderPrice - getSaleIf5Processor(itemsOrdered);
+    if(keyboardList.size() == mouseList.size()) {
+      totalSale += freeObject(keyboardList, mouseList);
+    }
+    totalSale += getSaleIf5Processor(itemsOrdered);
+    return orderPrice  - totalSale;
   }
 
   double getSaleIf5Processor(List<EItem> itemsOrdered) {
-
     double min = Double.MAX_VALUE;
     ArrayList<EItem> processors = new ArrayList<>();
     for (EItem item : itemsOrdered) {
@@ -56,5 +76,24 @@ public class Revenue implements Bill {
     }
 
     return 0;
+  }
+
+  double freeObject(List<EItem> list1, List<EItem> list2) {
+    double min1 = Double.MAX_VALUE;
+    double min2 = Double.MAX_VALUE;
+
+    for(EItem item : list1) {
+      if(item.getPrice() <= min1) {
+        min1 = item.getPrice();
+      }
+    }
+
+    for(EItem item : list2) {
+      if(item.getPrice() <= min1) {
+        min2 = item.getPrice();
+      }
+    }
+
+    return Math.min(min1, min2);
   }
 }

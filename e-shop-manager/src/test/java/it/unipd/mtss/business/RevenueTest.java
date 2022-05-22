@@ -33,6 +33,7 @@ public class RevenueTest {
   private ArrayList<EItem> itemsList;
   private ArrayList<EItem> processors6List;
   private ArrayList<EItem> processor4List;
+  private ArrayList<EItem> keyboardMouseList;
 
   @Before
   public void setUpObject() {
@@ -40,15 +41,22 @@ public class RevenueTest {
     motherboard = new EItem("RoG zy 1080", 1099.99, itemType.Motherboard);
     mouse = new EItem("Asus L3", 9.99, itemType.Mouse);
     processor = new EItem("Intel i5", 49.99, itemType.Processor);
+
     emptyList = new ArrayList<EItem>();
-    nullList = new ArrayList<EItem>();
+
     itemsList = new ArrayList<EItem>();
-    nullList.add(keyboard);
-    nullList.add(null);
     itemsList.add(keyboard);
     itemsList.add(motherboard);
     itemsList.add(mouse);
     itemsList.add(processor);
+
+    nullList = new ArrayList<EItem>();
+    nullList.add(keyboard);
+    nullList.add(null);
+
+    keyboardMouseList = new ArrayList<>();
+    keyboardMouseList.add(keyboard);
+    keyboardMouseList.add(mouse);
 
     processors6List = new ArrayList<>();
     processors6List.add(new EItem("Intel i1", 49.99, itemType.Processor));
@@ -97,5 +105,16 @@ public class RevenueTest {
   @Test
   public void getTotalWithNoProcessorSaleTest() {
     assertEquals(219.96, revenue.getOrderPrice(processor4List, user), 0.1);
+  }
+
+  @Test
+  public void getTotalWithSameKeyboardAndMouseTest() {
+    assertEquals(45.6, revenue.getOrderPrice(keyboardMouseList, user), 0.0);
+  }
+
+  @Test
+  public void getTotalWithDifferenteKeyboardAndMouseTest() {
+    keyboardMouseList.add(new EItem("Asus Keyboard", 19.99, itemType.Keyboard));
+    assertEquals(75.58, revenue.getOrderPrice(keyboardMouseList, user), 0.1);
   }
 }
