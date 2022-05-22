@@ -52,7 +52,7 @@ public class Revenue implements Bill {
 
       orderPrice += item.getPrice();
     }
-    if(keyboardList.size() == mouseList.size()) {
+    if(keyboardList.size() != 0 && keyboardList.size() == mouseList.size()) {
       totalSale += freeObject(keyboardList, mouseList);
     }
     totalSale += getSaleIf5Processor(itemsOrdered);

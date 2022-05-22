@@ -94,7 +94,7 @@ public class RevenueTest {
 
   @Test
   public void getTotalTest() {
-    assertEquals(1205.57, revenue.getOrderPrice(itemsList, user), 0.0);
+    assertEquals(1195.58, revenue.getOrderPrice(itemsList, user), 0.0);
   }
 
   @Test
