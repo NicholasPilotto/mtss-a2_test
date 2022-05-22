@@ -240,7 +240,7 @@ public class RevenueTest {
   }
 
   @Test
-  public void giveAwayWrongAgeTest() {
+  public void giveAwayAgeOlderThan18Test() {
     User user = new User("MargheritaHack", "Margherita", "Hack", 20);
     Order order = new Order(itemsList, user, LocalTime.of(18, 30,0), 200);
     ArrayList<Order> aux = new ArrayList<>();
@@ -249,12 +249,38 @@ public class RevenueTest {
   }
 
   @Test
-  public void giveAwayTest() {
-    User user = new User("MargheritaHack", "Margherita", "Hack", 18);
+  public void giveAwayOneOrderTest() {
+    User user = new User("MargheritaHack", "Margherita", "Hack", 17);
     Order order = new Order(itemsList, user, LocalTime.of(18, 30,0), 200);
     ArrayList<Order> aux = new ArrayList<>();
     aux.add(order);
     assertEquals(1, revenue.giveAway(aux).size());
   }
 
+  @Test
+  public void giveAwayMultipleOrdersTest() {
+    ArrayList<Order> aux = new ArrayList<>();
+    for(int i = 0; i < 15; i++) {
+      User user = new User("MargheritaHack", "Margherita", "Hack", 17);
+      Order order = new Order(itemsList, user, LocalTime.of(18, 30,0), 200);
+      aux.add(order);
+    }
+    assertEquals(10, revenue.giveAway(aux).size());
+  }
+
+  @Test
+  public void giveAwayMultipleOrdersYoungerAndOlderTest() {
+    ArrayList<Order> aux = new ArrayList<>();
+    for(int i = 0; i < 5; i++) {
+      User user1 = new User("MargheritaHack", "Margherita", "Hack", 17);
+      Order order1 = new Order(itemsList, user1, LocalTime.of(18, 30,0), 200);
+      aux.add(order1);
+    }
+    for(int i = 0; i < 5; i++) {
+      User user2 = new User("MarioRossi", "Mario", "Rossi", 45);
+      Order order2 = new Order(itemsList, user2, LocalTime.of(18, 30,0), 200);
+      aux.add(order2);
+    }
+    assertEquals(5, revenue.giveAway(aux).size());
+  }
 }

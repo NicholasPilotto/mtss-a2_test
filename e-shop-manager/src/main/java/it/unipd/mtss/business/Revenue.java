@@ -12,6 +12,7 @@ import it.unipd.mtss.model.itemType;
 import it.unipd.mtss.model.User;
 
 import java.time.LocalTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;
@@ -188,7 +189,6 @@ public class Revenue implements Bill {
 
   public List<Order> giveAway(List<Order> orders) throws BillException {
     ArrayList<Order> freeOrders = new ArrayList<>();
-
     if(orders == null) {
       throw new BillException("La lista degli ordini da regalare non deve essere nulla.");
     }
@@ -199,22 +199,18 @@ public class Revenue implements Bill {
 
     ArrayList<Order> orderPool = new ArrayList<>();
     for(Order order: orders) {
-      if(order.getUser().getAge() <= 18) {
+      if(order.getUser().getAge() < 18) {
         if(order.getTime().isAfter(LocalTime.of(17, 59, 59)) && order.getTime().isBefore(LocalTime.of(19, 0, 1))) {
           orderPool.add(order);
         }
       }
     }
-
     if(orderPool.size() > 0) {
-      int max = orderPool.size() > 10 ? 10 : orderPool.size();
-      for(int i = 0; i < max + 1; i++) {
-        Random randomGenerator = new Random();
-          int index = randomGenerator.nextInt(orderPool.size());
-          if(orderPool.get(index).getPrice() != 0) {
-            orderPool.get(index).setPrice(0);
-            freeOrders.add(orderPool.get(i));
-          }
+      Collections.shuffle(orderPool);
+      int max = Math.min(orderPool.size(), 10);
+      for(int i = 0; i < max; i++) {
+        orderPool.get(i).setPrice(0);
+        freeOrders.add((orderPool.get(i)));
       }
     }
 
