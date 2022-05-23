@@ -1,4 +1,3 @@
- 
 ////////////////////////////////////////////////////////////////////
 // [NICHOLAS] [PILOTTO] [1230237]
 // [GIOVANNI] [GARDIN] [2010003]
@@ -73,5 +72,10 @@ public class UserTest {
   @Test
   public void userGetLastnameTest() {
     assertEquals("Doe", mock.getLastname());
+  }
+
+  @Test
+  public void userGetAgeTest() {
+    assertEquals(18, mock.getAge());
   }
 }
