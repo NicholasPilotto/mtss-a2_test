@@ -12,7 +12,6 @@ import it.unipd.mtss.model.Order;
 import it.unipd.mtss.model.itemType;
 import it.unipd.mtss.model.User;
 
-import java.awt.image.AreaAveragingScaleFilter;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
@@ -31,16 +30,15 @@ public class RevenueTest {
   private Revenue revenue;
   private User user;
 
-  private int freeMouseThreshold;
-
   private ArrayList<EItem> emptyList;
   private ArrayList<EItem> nullList;
   private ArrayList<EItem> itemsList;
   private ArrayList<EItem> miceList;
-  private ArrayList<EItem> belowThresholdList;
-  private ArrayList<EItem> processors6List;
-  private ArrayList<EItem> processor4List;
+
   private ArrayList<EItem> keyboardMouseList;
+
+  private String[] names;
+  private String[] surnames;
 
   @Before
   public void setUpObject() {
@@ -49,12 +47,11 @@ public class RevenueTest {
     mouse = new EItem("Asus L3", 9.99, itemType.Mouse);
     anotherMouse = new EItem("Roccat Pure", 19.75, itemType.Mouse);
     processor = new EItem("Intel i5", 49.99, itemType.Processor);
-    freeMouseThreshold = 10;
+
 
     emptyList = new ArrayList<EItem>();
     itemsList = new ArrayList<EItem>();
     miceList = new ArrayList<EItem>();
-    belowThresholdList = new ArrayList<EItem>();
 
     nullList = new ArrayList<>();
     nullList.add(keyboard);
@@ -66,11 +63,9 @@ public class RevenueTest {
     itemsList.add(processor);
 
     miceList.add(anotherMouse);
-    for (int i = 0; i < freeMouseThreshold - 1; i++) {
+    for (int i = 0; i < 10 - 1; i++) {
       miceList.add(mouse);
     }
-
-    belowThresholdList.add(mouse);
 
     nullList = new ArrayList<EItem>();
     nullList.add(keyboard);
@@ -80,22 +75,46 @@ public class RevenueTest {
     keyboardMouseList.add(keyboard);
     keyboardMouseList.add(mouse);
 
-    processors6List = new ArrayList<>();
-    processors6List.add(new EItem("Intel i1", 49.99, itemType.Processor));
-    processors6List.add(new EItem("Intel i2", 79.99, itemType.Processor));
-    processors6List.add(new EItem("Intel i3", 19.99, itemType.Processor));
-    processors6List.add(new EItem("Intel i4", 29.99, itemType.Processor));
-    processors6List.add(new EItem("Intel i5", 109.99, itemType.Processor));
-    processors6List.add(new EItem("Intel i6", 89.99, itemType.Processor));
+    names = new String[] {
+            "Mario",
+            "Barbara",
+            "Luca",
+            "Giovanna",
+            "Alberto",
+            "Martina",
+            "Marco",
+            "Giulia",
+            "Francesco",
+            "Lucia",
+            "Stefano",
+            "Elisa",
+            "Valter",
+            "Ada",
+            "Alessandro",
+            "Elisabetta"
+    };
 
-    processor4List = new ArrayList<>();
-    processor4List.add(new EItem("Intel i7", 99.99, itemType.Processor));
-    processor4List.add(new EItem("Intel i8", 29.99, itemType.Processor));
-    processor4List.add(new EItem("Intel i9", 69.99, itemType.Processor));
-    processor4List.add(new EItem("Intel i10", 19.99, itemType.Processor));
+    surnames = new String[] {
+            "Rossi",
+            "Gialli",
+            "Verdi",
+            "Bianchi",
+            "Neri",
+            "Jobs",
+            "Torvalds",
+            "Ritchie",
+            "Stroustrup",
+            "Gates",
+            "Lovelace",
+            "Mercury",
+            "Ibrahimovic",
+            "Prince",
+            "Thumberg",
+            "Berlusconi"
+    };
+
 
     user = new User("MarioRossi", "Mario", "Rossi", 45);
-
     revenue = new Revenue();
   }
 
@@ -136,16 +155,28 @@ public class RevenueTest {
 
   @Test
   public void getTotalTest() {
-    assertEquals(1075.02, revenue.getOrderPrice(itemsList, user), 0.01);
+    assertEquals(1075.02, revenue.getOrderPrice(itemsList, user), 0.1);
   }
 
   @Test
   public void getTotalWithProcessorsSaleTest() {
+    ArrayList<EItem> processors6List = new ArrayList<>();
+    processors6List.add(new EItem("Intel i1", 49.99, itemType.Processor));
+    processors6List.add(new EItem("Intel i2", 79.99, itemType.Processor));
+    processors6List.add(new EItem("Intel i3", 19.99, itemType.Processor));
+    processors6List.add(new EItem("Intel i4", 29.99, itemType.Processor));
+    processors6List.add(new EItem("Intel i5", 109.99, itemType.Processor));
+    processors6List.add(new EItem("Intel i6", 89.99, itemType.Processor));
     assertEquals(369.95, revenue.getOrderPrice(processors6List, user), 0.1);
   }
 
   @Test
   public void getTotalWithNoProcessorSaleTest() {
+    ArrayList<EItem> processor4List = new ArrayList<>();
+    processor4List.add(new EItem("Intel i7", 99.99, itemType.Processor));
+    processor4List.add(new EItem("Intel i8", 29.99, itemType.Processor));
+    processor4List.add(new EItem("Intel i9", 69.99, itemType.Processor));
+    processor4List.add(new EItem("Intel i10", 19.99, itemType.Processor));
     assertEquals(219.96, revenue.getOrderPrice(processor4List, user), 0.1);
   }
 
@@ -180,30 +211,37 @@ public class RevenueTest {
     revenue.giveAway(new ArrayList<Order>());
   }
 
+  //MTSS-10
   @Test
   public void freeMouseIf10MiceTest() {
       assertEquals(109.66, revenue.getOrderPrice(miceList, user), 0.01);
   }
 
+  //MTSS-10
   @Test
   public void freeMouseIfMoreThan10MiceTest() {
-      miceList.add(anotherMouse); // 2 anotherMouse + 9 mouse
-      assertEquals(119.42, revenue.getOrderPrice(miceList, user), 0.01);
+      miceList.add(anotherMouse);
+      assertEquals(119.42, revenue.getOrderPrice(miceList, user), 0.1);
   }
 
+  //MTSS-12
   @Test
   public void offerDiscountIfTotalOverThresholdTest() {
-      assertEquals(1075.02, revenue.getOrderPrice(itemsList, user), 0.01);
+      assertEquals(1075.02, revenue.getOrderPrice(itemsList, user), 0.1);
   }
 
+  //MTSS-12
   @Test
-  public void offerDiscountIfTotalOverThresholdTest() {
-      assertEquals(109.66, revenue.getOrderPrice(miceList, user), 0.01);
+  public void doNotOfferDiscountIfTotalBelowThresholdTest() {
+      assertEquals(109.66, revenue.getOrderPrice(miceList, user), 0.1);
   }
 
+  //MTSS-14
   @Test
   public void addFeeTest() {
-      assertEquals(11.99, revenue.getOrderPrice(belowThresholdList, user), 0.0);
+    ArrayList<EItem> belowThresholdList = new ArrayList<EItem>();
+    belowThresholdList.add(mouse);
+    assertEquals(11.99, revenue.getOrderPrice(belowThresholdList, user), 0.0);
   }
 
   @Test(expected = BillException.class)
@@ -254,8 +292,8 @@ public class RevenueTest {
   @Test
   public void giveAwayMultipleOrdersTest() {
     ArrayList<Order> aux = new ArrayList<>();
-    for(int i = 0; i < 15; i++) {
-      User user = new User("MargheritaHack", "Margherita", "Hack", 17);
+    for(int i = 0; i < 16; i++) {
+      User user = new User(names[i]+surnames[i], names[i], surnames[i], 17);
       Order order = new Order(itemsList, user, LocalTime.of(18, 30,0), 200);
       aux.add(order);
     }
@@ -266,12 +304,12 @@ public class RevenueTest {
   public void giveAwayMultipleOrdersYoungerAndOlderTest() {
     ArrayList<Order> aux = new ArrayList<>();
     for(int i = 0; i < 5; i++) {
-      User user1 = new User("MargheritaHack", "Margherita", "Hack", 17);
+      User user1 = new User(names[i]+surnames[i], names[i], surnames[i], 17);
       Order order1 = new Order(itemsList, user1, LocalTime.of(18, 30,0), 200);
       aux.add(order1);
     }
     for(int i = 0; i < 5; i++) {
-      User user2 = new User("MarioRossi", "Mario", "Rossi", 45);
+      User user2 = new User(names[i]+surnames[i], names[i], surnames[i], 45);
       Order order2 = new Order(itemsList, user2, LocalTime.of(18, 30,0), 200);
       aux.add(order2);
     }
