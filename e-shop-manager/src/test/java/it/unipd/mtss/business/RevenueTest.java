@@ -49,7 +49,7 @@ public class RevenueTest {
     mouse = new EItem("Asus L3", 9.99, itemType.Mouse);
     anotherMouse = new EItem("Roccat Pure", 19.75, itemType.Mouse);
     processor = new EItem("Intel i5", 49.99, itemType.Processor);
-    freeMouseThreshold = 10; //soglia per ricevere gratis il mouse più economico
+    freeMouseThreshold = 10;
 
     emptyList = new ArrayList<EItem>();
     itemsList = new ArrayList<EItem>();
@@ -136,7 +136,7 @@ public class RevenueTest {
 
   @Test
   public void getTotalTest() {
-    assertEquals(1075.02, revenue.getOrderPrice(itemsList, user), 0.01); //alzo il delta a 1cent?
+    assertEquals(1075.02, revenue.getOrderPrice(itemsList, user), 0.01);
   }
 
   @Test
@@ -180,33 +180,27 @@ public class RevenueTest {
     revenue.giveAway(new ArrayList<Order>());
   }
 
-  //MTSS-10
   @Test
   public void freeMouseIf10MiceTest() {
-      assertEquals(109.66, revenue.getOrderPrice(miceList, user), 0.01); //alzo il delta a 1cent?
+      assertEquals(109.66, revenue.getOrderPrice(miceList, user), 0.01);
   }
 
-  //MTSS-10
   @Test
   public void freeMouseIfMoreThan10MiceTest() {
       miceList.add(anotherMouse); // 2 anotherMouse + 9 mouse
-      assertEquals(119.42, revenue.getOrderPrice(miceList, user), 0.01); //alzo il delta a 1cent?
+      assertEquals(119.42, revenue.getOrderPrice(miceList, user), 0.01);
   }
 
-  //MTSS-12
   @Test
   public void offerDiscountIfTotalOverThresholdTest() {
-      assertEquals(1075.02, revenue.getOrderPrice(itemsList, user), 0.01); //alzo il delta a 1cent?
+      assertEquals(1075.02, revenue.getOrderPrice(itemsList, user), 0.01);
   }
 
-  //MTSS-12
-  //è necessario?
   @Test
-  public void donotOfferDiscountIfTotalOverThresholdTest() {
-      assertEquals(109.66, revenue.getOrderPrice(miceList, user), 0.01); //alzo il delta a 1cent?
+  public void offerDiscountIfTotalOverThresholdTest() {
+      assertEquals(109.66, revenue.getOrderPrice(miceList, user), 0.01);
   }
 
-    //MTSS-14
   @Test
   public void addFeeTest() {
       assertEquals(11.99, revenue.getOrderPrice(belowThresholdList, user), 0.0);
